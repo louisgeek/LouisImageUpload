@@ -11,12 +11,12 @@ import java.util.List;
 /**
  * Created by louis on 2016/7/10.
  */
-public class myGridAdapter extends BaseAdapter{
+public class MyGridAdapter extends BaseAdapter{
 
     final  static int TYPE_NORMAL=0;
     final  static  int TYPE_PLUS=1;
 
-    public myGridAdapter(List<ImageBean> imageBeanList) {
+    public MyGridAdapter(List<ImageBean> imageBeanList) {
         this.imageBeanList = imageBeanList;
     }
 
@@ -67,6 +67,12 @@ public class myGridAdapter extends BaseAdapter{
                    break;
                case TYPE_PLUS:
                    convertView= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grid_plus,parent,false);
+                   convertView.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           onAddClickListener.onAddClick(v);
+                       }
+                   });
                    break;
 
            }
@@ -85,4 +91,14 @@ public class myGridAdapter extends BaseAdapter{
     class  ViewHolder{
         ImageView imageView;
     }
+
+   public interface  OnAddClickListener {
+       void onAddClick(View view);
+    }
+
+    public void setOnAddClickListener(OnAddClickListener onAddClickListener) {
+        this.onAddClickListener = onAddClickListener;
+    }
+
+    OnAddClickListener onAddClickListener;
 }
