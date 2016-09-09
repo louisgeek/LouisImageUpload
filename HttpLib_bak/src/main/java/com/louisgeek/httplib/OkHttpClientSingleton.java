@@ -66,8 +66,6 @@ public class OkHttpClientSingleton {
     public static final MediaType MEDIA_TYPE_JSON=MediaType.parse("application/json; charset=utf-8");
     public static final MediaType MEDIA_TYPE_PNG=MediaType.parse("image/png");
 
-    private static final String DEFAULT_PARAMS_ENCODING = "UTF-8";
-
     private  OkHttpClient mOkHttpClient;
    /*
     *//* 私有构造方法，防止被外部实例化 *//*
@@ -437,46 +435,22 @@ public class OkHttpClientSingleton {
         doPostAsync(url,headersMap, ParamsUtil.paramsStrToMap(paramsMapStr),responseCallback);
     }
     /**
-     * Posting form parameters FormBody （okhttp3 新增）  中文有问题  暂时别用
-     测试通过
+     * POST   测试通过
      */
-    public  void doPostAsyncOld(String url,Map<String, String> headersMap,Map<String, String> paramsMap,Callback responseCallback){
-        Log.d(TAG, "doPostAsyncOld: url:"+url);
-        StringBuilder stringBuilder=new StringBuilder("params:");
-        for(String key:paramsMap.keySet()){
-            String value=paramsMap.get(key);
-            stringBuilder.append(key);
-            stringBuilder.append("=");
-            stringBuilder.append(value);
-            stringBuilder.append("&");
-          //  Log.d(TAG, "doPostAsync: key:"+key+",value:"+paramsMap.get(key));
-        }
-        Log.d(TAG, "doPostAsyncOld:"+stringBuilder.toString());
+    public  void doPostAsync(String url,Map<String, String> headersMap,Map<String, String> paramsMap,Callback responseCallback){
+        Log.d(TAG, "doPostAsync: url:"+url);
         //表单数据
        /* RequestBody formBody = new FormBody.Builder()
                 .add("ID", "1")
                 .add("ID2", "2")
                 .build();*/
         FormBody formBody= null;
-
         if (paramsMap!=null) {
             FormBody.Builder formBodyBuilder = new FormBody.Builder();
             for (String key : paramsMap.keySet()) {
                 // System.out.println("key= "+ key + " and value= " + paramsMap.get(key));
                 String value = paramsMap.get(key);
-             /*   try {
-                    key= URLEncoder.encode(key,DEFAULT_PARAMS_ENCODING);
-                    value=URLEncoder.encode(value,DEFAULT_PARAMS_ENCODING);
-                    Log.d(TAG, "doPostAsync: encode key:"+key);
-                    Log.d(TAG, "doPostAsync: encode value:"+value);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "doPostAsync: encode UnsupportedEncodingException");
-                }*/
-                //###   formBodyBuilder.add(key,value);
-               formBodyBuilder.addEncoded(key, value);
-               formBodyBuilder.add(key, value);
-
+                formBodyBuilder.add(key, value);
             }
             formBody = formBodyBuilder.build();
         }
@@ -504,55 +478,7 @@ public class OkHttpClientSingleton {
         mOkHttpClient.newCall(request).enqueue(responseCallback);
     }
 
-    /**
-     * Posting form parameters    RequestBody  测试通过   中文没问题
-     * @param url
-     * @param headersMap
-     * @param paramsMap
-     * @param responseCallback
-     */
-    public  void doPostAsync(String url,Map<String, String> headersMap,Map<String, String> paramsMap,Callback responseCallback){
-        Log.d(TAG, "doPostAsync: url:"+url);
-        StringBuilder stringBuilder=new StringBuilder();
-        for(String key:paramsMap.keySet()){
-            String value=paramsMap.get(key);
-            stringBuilder.append(key);
-            stringBuilder.append("=");
-            stringBuilder.append(value);
-            stringBuilder.append("&");
-            //  Log.d(TAG, "doPostAsync: key:"+key+",value:"+paramsMap.get(key));
-        }
-        String paramsStr=stringBuilder.toString();
-       // Log.d(TAG, "doPostAsync:paramsStr start:"+paramsStr);
-        if (paramsStr.endsWith("&")){
-            paramsStr=paramsStr.substring(0,paramsStr.length()-1);
-        }
-        Log.d(TAG, "doPostAsync:paramsStr:"+paramsStr);
 
-
-        //创建一个请求对象
-        Request request;
-        Request.Builder requestBuilder=new Request.Builder();
-        requestBuilder.url(url);
-
-        //默认需要加的验证
-        requestBuilder.headers((Headers.of(setupDefaultHeaders())));
-        if (headersMap!=null) {
-            for(Map.Entry<String, String> entry : headersMap.entrySet()) {
-                requestBuilder.addHeader(entry.getKey(),entry.getValue());
-            }
-        }
-        if (paramsMap!=null) {
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_NORAML_FORM,paramsStr);
-        if (requestBody!=null) {
-            requestBuilder.post(requestBody);
-        }
-        }
-
-        request=requestBuilder.build();
-
-        mOkHttpClient.newCall(request).enqueue(responseCallback);
-    }
     public  void doPostAsyncMulti(Callback responseCallback){
        // String path1=Environment.getExternalStorageDirectory()+"222.txt";
         String path2=Environment.getExternalStorageDirectory()+"/111.png";

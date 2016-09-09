@@ -14,6 +14,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -77,7 +79,7 @@ public class ChildAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 			//###viewHolder.mImageView.setImageResource(R.drawable.friends_sends_pictures_no);
 		}
-		viewHolder.mImageView.setTag(path);
+		//#####viewHolder.mImageView.setTag(path);
 		viewHolder.mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -91,6 +93,13 @@ public class ChildAdapter extends BaseAdapter {
 		});
 
 		viewHolder.mCheckBox.setChecked(mSelectMap.containsKey(position) ? mSelectMap.get(position) : false);
+
+		Glide.with(parent.getContext())
+				.load(path)
+				.centerCrop()
+				.placeholder(R.mipmap.ic_launcher)
+				.crossFade()
+				.into(viewHolder.mImageView);
 
 	/*	//利用NativeImageLoader类加载本地图片
 		Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path, mPoint, new NativeImageCallBack() {

@@ -10,6 +10,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 /**
@@ -74,9 +76,14 @@ public class GroupAdapter extends BaseAdapter {
         viewHolder.mTextViewTitle.setText(imageFloderBean.getName());
         viewHolder.mTextViewCounts.setText(Integer.toString(imageFloderBean.getImageCount()));
         //给ImageView设置路径Tag,这是异步加载图片的小技巧
-        viewHolder.mImageView.setTag(path);
+       //#### viewHolder.mImageView.setTag(path);
 
-
+        Glide.with(parent.getContext())
+                .load(imageFloderBean.getFirstImagePath())
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(viewHolder.mImageView);
         /*//利用NativeImageLoader类加载本地图片
         Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path, mPoint, new NativeImageCallBack() {
 

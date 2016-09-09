@@ -25,7 +25,7 @@ public class ParamsUtil {
                     String paramsStrChild=paramsStrs[i];
                     if (paramsStrChild!=null&&!paramsStrChild.equals("")){
                         String[] paramsStrChilds = paramsStrChild.split("=");
-                      //###  Log.d(TAG, "upxxx paramsStrToMap: paramsStrChilds.length:"+paramsStrChilds.length);
+                        Log.d(TAG, "upxxx paramsStrToMap: paramsStrChilds.length:"+paramsStrChilds.length);
                         if (paramsStrChilds!=null&&paramsStrChilds.length>0){
                             String key=paramsStrChilds[0];
                             String value="";
