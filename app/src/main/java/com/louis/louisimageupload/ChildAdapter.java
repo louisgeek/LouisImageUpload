@@ -158,6 +158,4 @@ public class ChildAdapter extends BaseAdapter {
 		public CheckBox mCheckBox;
 	}
 
-
-
 }

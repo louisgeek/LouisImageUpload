@@ -187,6 +187,12 @@ public class ImageFloderActivity extends AppCompatActivity {
      * 利用ContentProvider扫描手机中的图片，此方法在运行在子线程中
      */
     private void getImagesTwo() {
+        if (!Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED))
+        {
+            Toast.makeText(this, "暂无外部存储", Toast.LENGTH_SHORT).show();
+            return;
+        }
         //显示进度条
         mProgressDialog = ProgressDialog.show(this, null, "正在加载...");
 
