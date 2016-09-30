@@ -52,8 +52,7 @@ import java.util.List;
  * 2015年2月5日上午11:05:50 
  */
 public  class ImageUtil {
-	
-	
+
 	/**
 	 * 尽量不要使用setImageBitmap或setImageResource或BitmapFactory.decodeResource来设置一张大图，
     因为这些函数在完成decode后，最终都是通过java层的createBitmap来完成的，需要消耗更多内存。
@@ -585,16 +584,18 @@ public  class ImageUtil {
 	 		return BitmapFactory.decodeByteArray(bitmapArray, 0,bitmapArray.length);
 	 	}
 
-	  public static String getBase64ImgsJsonStr(String filePath,String fileTime,int nowUserID) {
+	  public static String getBase64ImgsJsonStr(String filePath, String fileTime, int nowUserID) {
 
 		File file=new File(filePath);
 		String fileName=file.getName();
-		Bitmap bitmap=null;
+		/*Bitmap bitmap=null;
 		if (filePath !=null && filePath.length() > 0) {
 			bitmap = ImageUtil.zoomBitmapFromFileWithWidthHeight(file, 400, 400);
 		}
+		  bitmap=imageBitmap;
 		byte[] imgBytes = ImageUtil.Bitmap2Bytes(bitmap);
-		String Base64Str= Base64.encodeToString(imgBytes, Base64.DEFAULT);
+		String Base64Str= Base64.encodeToString(imgBytes, Base64.DEFAULT);*/
+		  String Base64Str=PictureUtil.bitmapToString(filePath);
 
 		List<UploadBase64ImgsBean> list=new ArrayList<>();
 
@@ -617,12 +618,16 @@ public  class ImageUtil {
 
 		File file=new File(filePath);
 		String fileName=file.getName();
+		/*
 		Bitmap bitmap=null;
 		if (filePath !=null && filePath.length() > 0) {
 			bitmap = ImageUtil.zoomBitmapFromFileWithWidthHeight(file, 400, 400);
 		}
+		bitmap=imageBitmap;
 		byte[] imgBytes = ImageUtil.Bitmap2Bytes(bitmap);
-		String Base64Str= Base64.encodeToString(imgBytes, Base64.DEFAULT);
+		String Base64Str= Base64.encodeToString(imgBytes, Base64.DEFAULT);*/
+
+		String Base64Str=PictureUtil.bitmapToString(filePath);
 
 		//List<UploadBase64ImgsBean> list=new ArrayList<>();
 		List<UploadBase64ImgsWithWeatherBean.PlantimgsstrBean> plantimgsstr=new ArrayList<>();
